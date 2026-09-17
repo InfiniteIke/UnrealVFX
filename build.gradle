@@ -1,0 +1,11 @@
+plugins {
+    id 'com.gtnewhorizons.gtnhconvention'
+}
+
+task runSchematicTest(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'com.unrealvfx.test.VFXSchematicTest'
+}
+
+test.dependsOn runSchematicTest
+

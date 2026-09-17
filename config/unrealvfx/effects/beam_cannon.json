@@ -1,0 +1,55 @@
+{
+  "id": "beam_cannon",
+  "duration": 80,
+  "loop": true,
+  "trackingRadius": 160.0,
+  "components": [
+    {
+      "type": "camera_shake",
+      "trauma": 0.45,
+      "fovKick": 6.0,
+      "continuous": false
+    },
+    {
+      "type": "impact_frame",
+      "triggerTick": 14,
+      "durationTicks": 2,
+      "impactType": "MANGA_BW"
+    },
+    {
+      "type": "shockwave",
+      "radius": {
+        "start": 0.4,
+        "end": 8.0,
+        "easing": "OUT_QUAD"
+      },
+      "alpha": {
+        "start": 1.0,
+        "end": 0.0,
+        "easing": "IN_QUAD"
+      },
+      "color": [
+        0.2,
+        0.8,
+        1.0
+      ],
+      "offsetY": 0.0
+    },
+    {
+      "type": "beam",
+      "length": 28.0,
+      "width": 0.7,
+      "chargeTicks": 14,
+      "color": [
+        0.15,
+        0.85,
+        1.0
+      ],
+      "hasHeadOrb": true,
+      "hasTailOrb": true,
+      "hasHelicalRibbons": true,
+      "ribbonRadius": 0.95,
+      "ribbonSpeed": 8.0
+    }
+  ]
+}

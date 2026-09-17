@@ -1,0 +1,50 @@
+{
+  "id": "reality_cube_vortex",
+  "duration": 80,
+  "loop": true,
+  "trackingRadius": 160.0,
+  "components": [
+    {
+      "type": "camera_shake",
+      "trauma": 0.35,
+      "fovKick": 4.0,
+      "continuous": false
+    },
+    {
+      "type": "gravitational_pull",
+      "radius": 14.0,
+      "pullStrength": 0.6,
+      "swirlStrength": 0.35
+    },
+    {
+      "type": "mesh",
+      "meshType": "SPHERE",
+      "shader": "celestial_void",
+      "scale": 4.0,
+      "offset": [0.0, 4.0, 0.0],
+      "color": [0.01, 0.002, 0.03],
+      "hotCoreColor": [0.0, 0.0, 0.0],
+      "rimColor": [0.95, 0.1, 0.8],
+      "rimPower": 3.2,
+      "bloomMultiplier": 2.5,
+      "invertedCore": true,
+      "steppedFps": 12.0
+    },
+    {
+      "type": "floating_debris",
+      "debrisType": "REALITY_CUBE",
+      "count": 32,
+      "radius": 7.0,
+      "color": [0.9, 0.2, 1.0],
+      "anticipationLevitation": true,
+      "centripetalSuction": true,
+      "explosiveDispersal": true
+    },
+    {
+      "type": "impact_frame",
+      "triggerTick": 65,
+      "durationTicks": 2,
+      "impactType": "HAKAI_PURPLE"
+    }
+  ]
+}

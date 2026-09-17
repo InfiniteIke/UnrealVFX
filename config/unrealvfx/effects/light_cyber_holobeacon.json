@@ -1,0 +1,47 @@
+﻿{
+  "id": "light_cyber_holobeacon",
+  "duration": 120,
+  "loop": true,
+  "trackingRadius": 160.0,
+  "components": [
+    {
+      "type": "light",
+      "shape": "SPOT",
+      "shader": "cyber_grid_shaft",
+      "offset": [0.0, 8.0, 0.0],
+      "radius": 10.0,
+      "spotAngle": 50.0,
+      "penumbra": 0.4,
+      "intensity": 1.5,
+      "color": [0.0, 0.95, 1.0],
+      "secondaryColor": [1.0, 0.1, 0.6],
+      "coreColor": [0.85, 1.0, 1.0],
+      "coreWidth": 0.3,
+      "beamSpeed": 1.6,
+      "patternDensity": 4.0,
+      "fringeStrength": 1.5,
+      "bloomMultiplier": 2.0,
+      "pulsing": true,
+      "pulseSpeed": 5.0,
+      "pulseIntensity": 0.15,
+      "lightTerrain": true,
+      "terrainIntensity": 1.3,
+      "terrainSpecular": 1.6,
+      "illuminateWorld": true,
+      "blockLightLevel": 14
+    },
+    {
+      "type": "light",
+      "shape": "AREA_DISC",
+      "shader": "cyber_grid_shaft",
+      "offset": [0.0, 0.05, 0.0],
+      "radius": 4.5,
+      "intensity": 0.85,
+      "color": [0.0, 0.95, 1.0],
+      "secondaryColor": [1.0, 0.05, 0.5],
+      "coreColor": [0.9, 1.0, 1.0],
+      "patternDensity": 3.5,
+      "bloomMultiplier": 1.4
+    }
+  ]
+}

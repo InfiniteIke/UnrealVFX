@@ -1,0 +1,30 @@
+﻿{
+  "id": "energy_slash",
+  "duration": 30,
+  "loop": false,
+  "trackingRadius": 96.0,
+  "components": [
+    { "type": "distortion", "startRadius": 0.5, "endRadius": 3.0, "strength": 0.06 },
+    {
+      "type": "mesh",
+      "meshType": "DISC",
+      "shader": "energy_disc",
+      "scale": 2.2,
+      "color": [0.15, 0.85, 1.0],
+      "initialRotation": [90.0, 0.0, 0.0],
+      "rotationSpeed": [0.0, 20.0, 0.0],
+      "blendMode": "ADDITIVE"
+    },
+    {
+      "type": "particle",
+      "particleType": "NEEDLE",
+      "spawnRate": 6,
+      "emissionRadius": 0.8,
+      "baseSpeed": 0.5,
+      "stretchFactor": 3.5,
+      "color": [0.4, 0.9, 1.0],
+      "suction": false,
+      "swirl": false
+    }
+  ]
+}

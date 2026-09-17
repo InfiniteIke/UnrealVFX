@@ -1,0 +1,41 @@
+﻿# =============================================================================
+# UNREALVFX GITIGNORE (Minecraft Mod + Electron 3D Studio)
+# =============================================================================
+
+# --- Gradle & Build Outputs ---
+.gradle/
+build/
+bin/
+out/
+target/
+
+# --- Minecraft Fabric Run Environment ---
+run/
+logs/
+crash-reports/
+
+# --- Electron Editor Build & Dependencies ---
+editor/node_modules/
+editor/dist/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- IDE & Editor Configuration ---
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.swp
+*.sublime-*
+
+# --- OS System Artifacts ---
+Thumbs.db
+Desktop.ini
+.DS_Store
+.BIN/

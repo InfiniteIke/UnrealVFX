@@ -1,0 +1,32 @@
+﻿{
+  "id": "divine_shield",
+  "duration": 80,
+  "loop": true,
+  "trackingRadius": 96.0,
+  "components": [
+    {
+      "type": "mesh",
+      "meshType": "DOME",
+      "shader": "energy_barrier",
+      "scale": { "start": 0.5, "end": 3.0, "easing": "OUT_QUAD" },
+      "alpha": { "start": 0.8, "end": 0.9, "easing": "LINEAR" },
+      "color": [0.3, 0.95, 0.6],
+      "blendMode": "ADDITIVE"
+    },
+    {
+      "type": "mesh",
+      "meshType": "THIN_RING",
+      "shader": "energy_disc",
+      "scale": 3.5,
+      "color": [1.0, 0.9, 0.3],
+      "initialRotation": [0.0, 25.0, 15.0],
+      "rotationSpeed": [5.0, 0.0, 0.0],
+      "blendMode": "ADDITIVE"
+    },
+    {
+      "type": "floating_debris",
+      "count": 5,
+      "radius": 2.2
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "id": "gigantic_meteor",
+  "duration": 120,
+  "loop": true,
+  "trackingRadius": 256.0,
+  "components": [
+    {
+      "type": "camera_shake",
+      "trauma": 0.20,
+      "continuous": true
+    },
+    {
+      "type": "mesh",
+      "meshType": "AURA_CAPSULE",
+      "shader": "aura_cel",
+      "scale": [1.4, 2.3, 1.4],
+      "offset": [0.0, 1.0, 0.0],
+      "color": [0.88, 0.18, 1.0],
+      "hotCoreColor": [1.0, 0.95, 0.8],
+      "rimColor": [0.45, 0.08, 0.65],
+      "distortionStrength": 0.14,
+      "celBands": 3.0,
+      "bloomMultiplier": 1.6,
+      "blendMode": "ADDITIVE"
+    },
+    {
+      "type": "mesh",
+      "meshType": "SPHERE",
+      "shader": "celestial_void",
+      "scale": 18.0,
+      "offset": [0.0, 24.0, -16.0],
+      "color": [0.01, 0.002, 0.025],
+      "hotCoreColor": [0.005, 0.001, 0.015],
+      "rimColor": [0.70, 0.22, 1.0],
+      "rimPower": 2.8,
+      "noiseSpeed": 0.8,
+      "noiseScale": 3.5,
+      "filamentStrength": 1.1,
+      "bloomMultiplier": 2.2,
+      "blendMode": "NORMAL",
+      "depthMask": true
+    },
+    {
+      "type": "mesh",
+      "meshType": "SPHERE",
+      "shader": "universal_energy",
+      "scale": 18.6,
+      "offset": [0.0, 24.0, -16.0],
+      "color": [0.45, 0.15, 0.95],
+      "hotCoreColor": [0.0, 0.0, 0.0],
+      "rimColor": [0.25, 0.80, 1.0],
+      "rimPower": 3.8,
+      "bloomMultiplier": 2.5,
+      "invertedCore": true,
+      "blendMode": "ADDITIVE"
+    },
+    {
+      "type": "mesh",
+      "meshType": "RING",
+      "shader": "energy_disc",
+      "scale": 25.0,
+      "offset": [0.0, 24.0, -16.0],
+      "initialRotation": [75.0, 15.0, 0.0],
+      "rotationSpeed": [0.0, 2.0, 0.0],
+      "color": [0.65, 0.25, 1.0],
+      "blendMode": "ADDITIVE"
+    },
+    {
+      "type": "mesh",
+      "meshType": "SPHERE",
+      "shader": "universal_energy",
+      "scale": [0.40, 0.40, 0.40],
+      "offset": [0.0, 2.2, 0.0],
+      "color": [0.90, 0.95, 1.0],
+      "hotCoreColor": [1.0, 1.0, 1.0],
+      "rimColor": [0.4, 0.7, 1.0],
+      "bloomMultiplier": 2.5,
+      "blendMode": "ADDITIVE",
+      "array": {
+        "count": 28,
+        "stepPos": [0.0, 1.15, -0.85],
+        "stepRot": [0.0, 0.0, 0.0],
+        "phaseDelay": 0.35
+      }
+    },
+    {
+      "type": "lightning",
+      "mode": "SURFACE_SPHERE",
+      "arcCount": 18,
+      "radius": 18.2,
+      "offset": [0.0, 24.0, -16.0],
+      "color": [0.75, 0.30, 1.0],
+      "coreColor": [0.55, 0.90, 1.0],
+      "width": 0.14,
+      "roughness": 0.30,
+      "branchForks": 2,
+      "forkChance": 0.40,
+      "glowMultiplier": 2.2,
+      "spherical": true
+    }
+  ]
+}

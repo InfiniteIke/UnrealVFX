@@ -1,0 +1,26 @@
+{
+  "name": "unrealvfx-studio",
+  "version": "1.0.0",
+  "description": "Native 3D Visual Effects Editor & Schematic Designer for UnrealVFX Minecraft Mod",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-packager . \"UnrealVFX Studio\" --platform=win32 --arch=x64 --out=dist --overwrite --prune=true",
+    "dist": "npm run pack"
+  },
+  "keywords": [
+    "unrealvfx",
+    "minecraft",
+    "vfx",
+    "glsl",
+    "shaders",
+    "editor",
+    "threejs"
+  ],
+  "author": "UnrealVFX Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron/packager": "^18.4.1",
+    "electron": "^33.4.11"
+  }
+}

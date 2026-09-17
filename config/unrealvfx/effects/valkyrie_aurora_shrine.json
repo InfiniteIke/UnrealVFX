@@ -1,0 +1,80 @@
+{
+  "id": "valkyrie_aurora_shrine",
+  "duration": 140,
+  "loop": true,
+  "trackingRadius": 160,
+  "components": [
+    {
+      "type": "light",
+      "shape": "SPOT",
+      "shader": "aurora_borealis",
+      "offset": [
+        0,
+        8.5,
+        0
+      ],
+      "radius": 10,
+      "spotAngle": 55,
+      "penumbra": 0.75,
+      "intensity": 1.4,
+      "color": [
+        0.1,
+        0.98,
+        0.6
+      ],
+      "secondaryColor": [
+        0.9,
+        0.25,
+        0.85
+      ],
+      "coreColor": [
+        0.95,
+        1,
+        0.95
+      ],
+      "coreWidth": 0.25,
+      "beamSpeed": 0.8,
+      "patternDensity": 2.2,
+      "fringeStrength": 0.65,
+      "bloomMultiplier": 1.8,
+      "illuminateWorld": true,
+      "blockLightLevel": 14
+    },
+    {
+      "type": "light",
+      "shape": "AREA_DISC",
+      "offset": [
+        0,
+        0.05,
+        0
+      ],
+      "radius": 6,
+      "intensity": 0.6,
+      "color": [
+        0.15,
+        0.95,
+        0.7
+      ],
+      "coreColor": [
+        1,
+        1,
+        1
+      ],
+      "bloomMultiplier": 1.2
+    },
+    {
+      "type": "particle",
+      "particleType": "KI_EMBER",
+      "spawnRate": 8,
+      "emissionRadius": 2.5,
+      "baseSpeed": 0.28,
+      "color": [
+        0.3,
+        1,
+        0.8
+      ],
+      "suction": false,
+      "swirl": true
+    }
+  ]
+}

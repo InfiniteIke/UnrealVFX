@@ -1,0 +1,68 @@
+{
+  "id": "abyssal_eclipse_well",
+  "duration": 120,
+  "loop": true,
+  "trackingRadius": 160,
+  "components": [
+    {
+      "type": "camera_shake",
+      "trauma": 0.14,
+      "fovKick": 1.5,
+      "continuous": true
+    },
+    {
+      "type": "light",
+      "shape": "COLUMN",
+      "shader": "abyssal_void_light",
+      "offset": [
+        0,
+        0,
+        0
+      ],
+      "radius": 4.5,
+      "intensity": 1.5,
+      "color": [
+        0.6,
+        0.05,
+        0.95
+      ],
+      "secondaryColor": [
+        0.95,
+        0.1,
+        0.3
+      ],
+      "coreColor": [
+        0.01,
+        0,
+        0.02
+      ],
+      "coreWidth": 0.48,
+      "beamSpeed": 0.9,
+      "patternDensity": 2.8,
+      "fringeStrength": 1,
+      "bloomMultiplier": 2.4,
+      "illuminateWorld": true,
+      "blockLightLevel": 8
+    },
+    {
+      "type": "distortion",
+      "startRadius": 0.5,
+      "endRadius": 5,
+      "strength": 0.06
+    },
+    {
+      "type": "particle",
+      "particleType": "KI_EMBER",
+      "spawnRate": 10,
+      "emissionRadius": 3,
+      "baseSpeed": -0.3,
+      "color": [
+        0.7,
+        0.1,
+        0.9
+      ],
+      "suction": true,
+      "swirl": true
+    }
+  ]
+}

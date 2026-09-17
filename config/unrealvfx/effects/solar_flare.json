@@ -1,0 +1,47 @@
+﻿{
+  "id": "solar_flare",
+  "duration": 50,
+  "loop": false,
+  "trackingRadius": 128.0,
+  "components": [
+    { "type": "camera_shake", "trauma": 0.75, "fovKick": 12.0, "continuous": false },
+    { "type": "distortion", "startRadius": 0.5, "endRadius": 14.0, "strength": 0.07 },
+    {
+      "type": "shockwave",
+      "radius": { "start": 0.5, "end": 12.0, "easing": "OUT_QUAD" },
+      "alpha": { "start": 1.0, "end": 0.0, "easing": "IN_QUAD" },
+      "color": [1.0, 0.75, 0.2],
+      "offsetY": 0.05
+    },
+    {
+      "type": "mesh",
+      "meshType": "SPHERE",
+      "shader": "energy_core",
+      "scale": { "start": 0.4, "end": 7.0, "easing": "OUT_EXPO" },
+      "alpha": { "start": 1.0, "end": 0.0, "easing": "IN_QUAD" },
+      "color": { "start": [1.0, 0.95, 0.4], "end": [1.0, 0.25, 0.05], "easing": "IN_QUAD" },
+      "rotationSpeed": [3.0, 2.0, 0.0],
+      "blendMode": "ADDITIVE"
+    },
+    {
+      "type": "mesh",
+      "meshType": "RING",
+      "shader": "energy_disc",
+      "scale": { "start": 0.8, "end": 9.5, "easing": "OUT_EXPO" },
+      "alpha": { "start": 1.0, "end": 0.0, "easing": "IN_QUAD" },
+      "color": [1.0, 0.65, 0.15],
+      "initialRotation": [0.0, 35.0, 15.0],
+      "rotationSpeed": [8.0, 0.0, 0.0],
+      "blendMode": "ADDITIVE"
+    },
+    {
+      "type": "lightning",
+      "arcCount": 10,
+      "radius": 5.5,
+      "height": 4.0,
+      "color": [1.0, 0.85, 0.25],
+      "width": 0.10,
+      "spherical": true
+    }
+  ]
+}

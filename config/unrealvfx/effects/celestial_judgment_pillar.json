@@ -1,0 +1,89 @@
+{
+  "id": "celestial_judgment_pillar",
+  "duration": 90,
+  "loop": true,
+  "trackingRadius": 160,
+  "components": [
+    {
+      "type": "camera_shake",
+      "trauma": 0.22,
+      "fovKick": 2,
+      "continuous": true
+    },
+    {
+      "type": "shockwave",
+      "radius": {
+        "start": 0.5,
+        "end": 6.5,
+        "easing": "OUT_QUAD"
+      },
+      "alpha": {
+        "start": 0.85,
+        "end": 0,
+        "easing": "IN_QUAD"
+      },
+      "color": [
+        0.2,
+        0.9,
+        1
+      ],
+      "offsetY": 0.05
+    },
+    {
+      "type": "light",
+      "shape": "COLUMN",
+      "shader": "celestial_beam",
+      "offset": [
+        0,
+        0,
+        0
+      ],
+      "radius": 3.5,
+      "intensity": 1.8,
+      "color": [
+        0.15,
+        0.85,
+        1
+      ],
+      "secondaryColor": [
+        0.95,
+        0.35,
+        1
+      ],
+      "coreColor": [
+        1,
+        1,
+        1
+      ],
+      "coreWidth": 0.42,
+      "beamSpeed": 1.4,
+      "patternDensity": 4,
+      "fringeStrength": 0.85,
+      "bloomMultiplier": 2.2,
+      "illuminateWorld": true,
+      "blockLightLevel": 15,
+      "lightTerrain": true,
+      "terrainIntensity": 0.5,
+      "terrainSpecular": 0.4
+    },
+    {
+      "type": "particle",
+      "particleType": "KI_EMBER",
+      "spawnRate": 12,
+      "emissionRadius": 2.8,
+      "baseSpeed": 0.4,
+      "color": [
+        0.2,
+        0.9,
+        1
+      ],
+      "suction": false,
+      "swirl": true,
+      "offset": [
+        0,
+        2,
+        0
+      ]
+    }
+  ]
+}

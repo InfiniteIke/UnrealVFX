@@ -1,0 +1,20 @@
+{
+  "id": "heat_mirage_zone",
+  "duration": 100,
+  "loop": true,
+  "trackingRadius": 96.0,
+  "components": [
+    {
+      "type": "heat_distortion",
+      "shape": "CYLINDER",
+      "strength": 0.08,
+      "centerFalloff": 1.8,
+      "noiseSpeed": 2.5,
+      "noiseFrequency": 4.5,
+      "scale": [4.0, 3.5, 4.0],
+      "offset": [0.0, 1.75, 0.0],
+      "tintColor": [1.0, 0.65, 0.25],
+      "tintAlpha": 0.0
+    }
+  ]
+}

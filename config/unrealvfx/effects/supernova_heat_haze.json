@@ -1,0 +1,70 @@
+{
+  "id": "supernova_heat_haze",
+  "duration": 80,
+  "loop": true,
+  "trackingRadius": 160,
+  "components": [
+    {
+      "type": "heat_distortion",
+      "shape": "SPHERE",
+      "strength": 0.5,
+      "centerFalloff": 1.8,
+      "cullFace": false,
+      "noiseSpeed": 3.0,
+      "noiseFrequency": 4.5,
+      "scale": [
+        6.0,
+        6.0,
+        6.0
+      ],
+      "offset": [
+        0.0,
+        2.5,
+        0.0
+      ],
+      "color": [
+        0.8509803921568627,
+        0.5647058823529412,
+        0.07058823529411765
+      ]
+    },
+    {
+      "type": "mesh",
+      "meshType": "SPHERE",
+      "shader": "celestial_void",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "offset": [
+        0.0,
+        5.0,
+        0.0
+      ],
+      "color": [
+        0.01,
+        0.002,
+        0.025
+      ],
+      "hotCoreColor": [
+        0.005,
+        0.001,
+        0.015
+      ],
+      "rimColor": [
+        0.7,
+        0.22,
+        1.0
+      ],
+      "rimPower": 2.8,
+      "noiseSpeed": 0.8,
+      "noiseScale": 3.5,
+      "filamentStrength": 1.1,
+      "bloomMultiplier": 2.2,
+      "invertedCore": true,
+      "blendMode": "NORMAL",
+      "depthMask": true
+    }
+  ]
+}

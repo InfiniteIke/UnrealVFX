@@ -1,0 +1,92 @@
+{
+  "id": "aura_test_purple",
+  "duration": 120,
+  "loop": true,
+  "trackingRadius": 256.0,
+  "components": [
+    {
+      "type": "camera_shake",
+      "trauma": 0.16,
+      "continuous": true
+    },
+    {
+      "type": "shockwave",
+      "offsetY": 0.05,
+      "radius": {
+        "start": 0.6,
+        "end": 2.4,
+        "easing": "OUT_QUAD"
+      },
+      "alpha": {
+        "start": 0.9,
+        "end": 0.0,
+        "easing": "IN_QUAD"
+      },
+      "color": [
+        0.75,
+        0.15,
+        1.0
+      ]
+    },
+    {
+      "type": "mesh",
+      "meshType": "AURA_CAPSULE",
+      "shader": "aura_cel",
+      "scale": [
+        1.5,
+        2.5,
+        1.5
+      ],
+      "offset": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "color": [
+        0.88,
+        0.18,
+        1.0
+      ],
+      "hotCoreColor": [
+        1.0,
+        0.95,
+        0.8
+      ],
+      "rimColor": [
+        0.45,
+        0.08,
+        0.65
+      ],
+      "distortionStrength": 0.18,
+      "celBands": 3.0,
+      "noiseSpeed": 2.2,
+      "bloomMultiplier": 1.6,
+      "blendMode": "ADDITIVE",
+      "rotationSpeed": [
+        2.5,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "type": "particle",
+      "particleType": "KI_EMBER",
+      "spawnRate": 8,
+      "emissionRadius": 1.4,
+      "baseSpeed": 0.25,
+      "color": [
+        0.95,
+        0.45,
+        1.0
+      ],
+      "suction": false,
+      "swirl": true
+    },
+    {
+      "type": "distortion",
+      "startRadius": 0.6,
+      "endRadius": 3.2,
+      "strength": 0.04
+    }
+  ]
+}
