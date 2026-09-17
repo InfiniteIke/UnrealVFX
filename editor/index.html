@@ -611,6 +611,12 @@
             flex-direction: column;
             gap: 4px;
         }
+        .form-col-4 {
+            width: 23%;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
         label {
             font-size: 10.5px;
             color: var(--text-muted);
@@ -874,6 +880,35 @@
             font-size: 10.5px;
             color: var(--text-muted);
             line-height: 1.35;
+        }
+        .modal-section-header {
+            grid-column: 1 / -1;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 4px 4px 4px;
+            margin-top: 6px;
+        }
+        .modal-section-header:first-child {
+            margin-top: 0;
+            padding-top: 0;
+        }
+        .modal-section-header.divider {
+            border-top: 1px solid var(--panel-border);
+            padding-top: 14px;
+            margin-top: 10px;
+        }
+        .badge-primitive {
+            font-size: 9.5px;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
         }
 
         /* TOAST HUD NOTIFICATIONS (Apple Floating Pill) */
@@ -1287,6 +1322,93 @@
                 <button class="btn btn-icon" onclick="closeAddCompModal()" style="padding: 3px 8px; font-size: 13px;">✕</button>
             </div>
             <div class="modal-grid">
+                <!-- 1. GEOMETRIE PRIMITIVE BASE -->
+                <div class="modal-section-header">
+                    <span style="color: var(--accent-cyan); display: flex; align-items: center; gap: 6px;">
+                        <span>📐</span> 3D Geometric Primitives
+                    </span>
+                    <span class="badge-primitive" style="background: rgba(0, 240, 255, 0.12); color: var(--accent-cyan); border: 1px solid rgba(0, 240, 255, 0.25);">Solid & Clean</span>
+                </div>
+
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_cube')">
+                    <div class="add-elem-title">📦 Solid Cube (Box)</div>
+                    <div class="add-elem-desc">Standard 1x1x1 solid opaque cube. Clean diffuse mesh with no shaders or transparency.</div>
+                </div>
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_sphere')">
+                    <div class="add-elem-title">⚪ Solid Sphere</div>
+                    <div class="add-elem-desc">Standard 1x1x1 solid sphere with 36 subdivisions. Clean geometric primitive.</div>
+                </div>
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_cylinder')">
+                    <div class="add-elem-title">🛢️ Solid Cylinder</div>
+                    <div class="add-elem-desc">Solid upright cylinder primitive with smooth normals and flat caps.</div>
+                </div>
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_plane')">
+                    <div class="add-elem-title">📐 Solid Plane (Quad)</div>
+                    <div class="add-elem-desc">2D rectangular surface with double-sided rendering for decals or ground references.</div>
+                </div>
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_cone')">
+                    <div class="add-elem-title">🔺 Solid Cone</div>
+                    <div class="add-elem-desc">Solid conical geometry with circular base and apex vertex.</div>
+                </div>
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_ring')">
+                    <div class="add-elem-title">💍 Geometric Ring (Torus)</div>
+                    <div class="add-elem-desc">Flat geometric ring with inner and outer parametric radiuses.</div>
+                </div>
+
+                <!-- 2. LUCI BASE -->
+                <div class="modal-section-header divider">
+                    <span style="color: #FF9F0A; display: flex; align-items: center; gap: 6px;">
+                        <span>💡</span> Lighting Sources
+                    </span>
+                    <span class="badge-primitive" style="background: rgba(255, 159, 10, 0.12); color: #FF9F0A; border: 1px solid rgba(255, 159, 10, 0.25);">Omni & Spot</span>
+                </div>
+
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_point_light')">
+                    <div class="add-elem-title">💡 Point Light (Omni Source)</div>
+                    <div class="add-elem-desc">Radial point light source with volumetric scattering and inverse-square falloff.</div>
+                </div>
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_spot_light')">
+                    <div class="add-elem-title">🔦 Spot Light (Directional Cone)</div>
+                    <div class="add-elem-desc">Directed conical light beam with penumbra angle and angular attenuation.</div>
+                </div>
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_column_light')">
+                    <div class="add-elem-title">🏛️ Cylindrical Light Column</div>
+                    <div class="add-elem-desc">Vertical volumetric pillar of light with soft radial boundary and world illuminance.</div>
+                </div>
+
+                <!-- 3. EFFETTI & PARTICELLE BASE -->
+                <div class="modal-section-header divider">
+                    <span style="color: #BF5AF2; display: flex; align-items: center; gap: 6px;">
+                        <span>✨</span> Base VFX & Particle Emitters
+                    </span>
+                    <span class="badge-primitive" style="background: rgba(191, 90, 242, 0.12); color: #BF5AF2; border: 1px solid rgba(191, 90, 242, 0.25);">Single Emitters</span>
+                </div>
+
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_particles')">
+                    <div class="add-elem-title">🌀 Basic Particle Emitter</div>
+                    <div class="add-elem-desc">Parametric particle emitter with configurable count, speed and radial dispersion.</div>
+                </div>
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_shockwave')">
+                    <div class="add-elem-title">💥 Expanding Shockwave Ring</div>
+                    <div class="add-elem-desc">Planar radial shockwave ring with parametric expansion radius and alpha dissipation.</div>
+                </div>
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_lightning')">
+                    <div class="add-elem-title">⚡ Point-to-Point Arc Discharge</div>
+                    <div class="add-elem-desc">High-voltage procedural discharge ribbon with midpoint displacement jitter.</div>
+                </div>
+                <div class="add-elem-card" onclick="addPresetComponent('primitive_heat_sphere')">
+                    <div class="add-elem-title">♨️ Heat Distortion Volume</div>
+                    <div class="add-elem-desc">Spherical screen-space refraction pass with multi-octave thermal turbulence.</div>
+                </div>
+
+                <!-- 4. PRESET COMPLESSI & MODULI VFX SPECIALIZZATI -->
+                <div class="modal-section-header divider">
+                    <span style="color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
+                        <span>🌌</span> Complex VFX Modules & Specialized Presets (Scroll for more)
+                    </span>
+                    <span class="badge-primitive" style="background: rgba(255, 255, 255, 0.06); color: var(--text-muted); border: 1px solid rgba(255, 255, 255, 0.1);">Multi-Pass</span>
+                </div>
+
                 <div class="add-elem-card" onclick="addPresetComponent('celestial_void')">
                     <div class="add-elem-title">🌑 Void Singularity Core</div>
                     <div class="add-elem-desc">Non-linear accretion boundary sphere with high-temperature coronal emission & procedural surface noise veins.</div>
@@ -1302,10 +1424,6 @@
                 <div class="add-elem-card" onclick="addPresetComponent('surface_lightning')">
                     <div class="add-elem-title">⚡ Surface Conformal Discharge Ribbons</div>
                     <div class="add-elem-desc">Dual-pass procedural electric arc strips adhering conformally to spherical or polygonal geometries with branching jitter.</div>
-                </div>
-                <div class="add-elem-card" onclick="addPresetComponent('directed_lightning')">
-                    <div class="add-elem-title">⚡ Point-to-Point Arc Discharge</div>
-                    <div class="add-elem-desc">High-voltage vector discharge with midpoint displacement jitter, camera-facing ribbons & branched stepped segments.</div>
                 </div>
                 <div class="add-elem-card" onclick="addPresetComponent('energy_disc')">
                     <div class="add-elem-title">💿 High-Velocity Planar Plasma Disc</div>
@@ -1323,10 +1441,6 @@
                     <div class="add-elem-title">💫 Procedural Cloner Array (MoGraph)</div>
                     <div class="add-elem-desc">Parametric instance replication modifier with time-stepped phase delay, helical twisting & multi-axis scale ramps.</div>
                 </div>
-                <div class="add-elem-card" onclick="addPresetComponent('shockwave')">
-                    <div class="add-elem-title">💥 Planar Expanding Shockwave Ring</div>
-                    <div class="add-elem-desc">Planar radial shockwave ring with parametric expansion radius, easing curves & alpha dissipation envelope.</div>
-                </div>
                 <div class="add-elem-card" onclick="addPresetComponent('distortion')">
                     <div class="add-elem-title">🔮 Screen-Space Gravitational Lens</div>
                     <div class="add-elem-desc">Radial screen-space refractive distortion envelope simulating relativistic gravitational lensing during peak impact.</div>
@@ -1342,14 +1456,6 @@
                 <div class="add-elem-card" onclick="addPresetComponent('beam_cannon_elem')">
                     <div class="add-elem-title">🌀 Collimated Beam & Dual-Helix Ribbon</div>
                     <div class="add-elem-desc">Collimated primary laser channel wrapped with counter-rotating parametric dual-helix plasma sheaths.</div>
-                </div>
-                <div class="add-elem-card" onclick="addPresetComponent('heat_distortion')">
-                    <div class="add-elem-title">♨️ Volumetric Convection Heat Distortion</div>
-                    <div class="add-elem-desc">Dynamic screen-space refraction normal pass with multi-octave thermal turbulence, center falloff exponent & variable bounding volume.</div>
-                </div>
-                <div class="add-elem-card" onclick="addPresetComponent('light')">
-                    <div class="add-elem-title">💡 Volumetric Light Source (Point / Spot / Column)</div>
-                    <div class="add-elem-desc">Physically-grounded volumetric light with Henyey-Greenstein phase scattering, dust motes, penumbra diffusion & world illuminance.</div>
                 </div>
             </div>
         </div>
@@ -2705,6 +2811,175 @@
         function addPresetComponent(type) {
             let newComp;
             switch (type) {
+                // --- 1. 3D GEOMETRIC PRIMITIVES (SOLID & CLEAN) ---
+                case 'primitive_cube':
+                    newComp = {
+                        type: "mesh",
+                        meshType: "CUBE",
+                        shader: "solid",
+                        scale: [1.0, 1.0, 1.0],
+                        offset: [0.0, 0.5, 0.0],
+                        color: [0.85, 0.85, 0.85],
+                        alpha: 1.0,
+                        blendMode: "NORMAL",
+                        depthMask: true,
+                        roughness: 0.45,
+                        metalness: 0.05
+                    };
+                    break;
+                case 'primitive_sphere':
+                    newComp = {
+                        type: "mesh",
+                        meshType: "SPHERE",
+                        shader: "solid",
+                        scale: [1.0, 1.0, 1.0],
+                        offset: [0.0, 0.5, 0.0],
+                        color: [0.85, 0.85, 0.85],
+                        alpha: 1.0,
+                        blendMode: "NORMAL",
+                        depthMask: true,
+                        roughness: 0.45,
+                        metalness: 0.05
+                    };
+                    break;
+                case 'primitive_cylinder':
+                    newComp = {
+                        type: "mesh",
+                        meshType: "CYLINDER",
+                        shader: "solid",
+                        scale: [1.0, 1.0, 1.0],
+                        offset: [0.0, 0.5, 0.0],
+                        color: [0.85, 0.85, 0.85],
+                        alpha: 1.0,
+                        blendMode: "NORMAL",
+                        depthMask: true,
+                        roughness: 0.45,
+                        metalness: 0.05
+                    };
+                    break;
+                case 'primitive_plane':
+                    newComp = {
+                        type: "mesh",
+                        meshType: "PLANE",
+                        shader: "solid",
+                        scale: [2.0, 2.0, 1.0],
+                        offset: [0.0, 0.01, 0.0],
+                        initialRotation: [90.0, 0.0, 0.0],
+                        color: [0.85, 0.85, 0.85],
+                        alpha: 1.0,
+                        blendMode: "NORMAL",
+                        depthMask: true,
+                        roughness: 0.45,
+                        metalness: 0.05
+                    };
+                    break;
+                case 'primitive_cone':
+                    newComp = {
+                        type: "mesh",
+                        meshType: "CONE",
+                        shader: "solid",
+                        scale: [1.0, 1.0, 1.0],
+                        offset: [0.0, 0.5, 0.0],
+                        color: [0.85, 0.85, 0.85],
+                        alpha: 1.0,
+                        blendMode: "NORMAL",
+                        depthMask: true,
+                        roughness: 0.45,
+                        metalness: 0.05
+                    };
+                    break;
+                case 'primitive_ring':
+                    newComp = {
+                        type: "mesh",
+                        meshType: "RING",
+                        shader: "solid",
+                        scale: [1.5, 1.5, 1.5],
+                        offset: [0.0, 0.02, 0.0],
+                        initialRotation: [90.0, 0.0, 0.0],
+                        color: [0.85, 0.85, 0.85],
+                        alpha: 1.0,
+                        blendMode: "NORMAL",
+                        depthMask: true,
+                        roughness: 0.45,
+                        metalness: 0.05
+                    };
+                    break;
+
+                // --- 2. LIGHTING PRIMITIVES ---
+                case 'primitive_point_light':
+                    newComp = {
+                        type: "light",
+                        shape: "POINT",
+                        intensity: 1.5,
+                        radius: 12.0,
+                        color: [1.0, 0.95, 0.8],
+                        offset: [0.0, 3.0, 0.0]
+                    };
+                    break;
+                case 'primitive_spot_light':
+                    newComp = {
+                        type: "light",
+                        shape: "SPOT",
+                        intensity: 2.0,
+                        radius: 16.0,
+                        color: [1.0, 1.0, 1.0],
+                        offset: [0.0, 6.0, 0.0]
+                    };
+                    break;
+                case 'primitive_column_light':
+                    newComp = {
+                        type: "light",
+                        shape: "COLUMN",
+                        intensity: 1.8,
+                        radius: 14.0,
+                        color: [0.5, 0.8, 1.0],
+                        offset: [0.0, 0.0, 0.0]
+                    };
+                    break;
+
+                // --- 3. BASE VFX & PARTICLE PRIMITIVES ---
+                case 'primitive_particles':
+                    newComp = {
+                        type: "particle_vortex",
+                        particleCount: 120,
+                        radius: 4.0,
+                        speed: 1.0,
+                        color: [0.2, 0.8, 1.0],
+                        blendMode: "ADDITIVE"
+                    };
+                    break;
+                case 'primitive_shockwave':
+                    newComp = {
+                        type: "shockwave",
+                        radius: 5.0,
+                        width: 0.4,
+                        duration: 30,
+                        color: [1.0, 0.8, 0.2],
+                        blendMode: "ADDITIVE"
+                    };
+                    break;
+                case 'primitive_lightning':
+                    newComp = {
+                        type: "directed_lightning",
+                        color: [0.4, 0.7, 1.0],
+                        coreColor: [1.0, 1.0, 1.0],
+                        branchCount: 3,
+                        jitter: 0.35,
+                        blendMode: "ADDITIVE"
+                    };
+                    break;
+                case 'primitive_heat_sphere':
+                    newComp = {
+                        type: "heat_distortion",
+                        shape: "SPHERE",
+                        scale: [3.0, 3.0, 3.0],
+                        strength: 0.035,
+                        speed: 1.0,
+                        offset: [0.0, 1.5, 0.0]
+                    };
+                    break;
+
+                // --- 4. SPECIALIZED VFX PRESETS & MODULES ---
                 case 'celestial_void':
                     newComp = {
                         type: "mesh",
@@ -2994,6 +3269,16 @@
         }
         scene.background = createViewportBackgroundTexture();
         scene.fog = new THREE.FogExp2(0x0b0d13, 0.015);
+
+        // Studio Lighting for Solid Primitives
+        const defaultAmbientLight = new THREE.AmbientLight(0xffffff, 0.85);
+        scene.add(defaultAmbientLight);
+        const defaultKeyLight = new THREE.DirectionalLight(0xffffff, 0.95);
+        defaultKeyLight.position.set(12, 20, 15);
+        scene.add(defaultKeyLight);
+        const defaultFillLight = new THREE.DirectionalLight(0x88bbff, 0.4);
+        defaultFillLight.position.set(-12, -10, -10);
+        scene.add(defaultFillLight);
 
         const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.set(0, 5, 14);
@@ -4704,7 +4989,33 @@
 
                     // Material
                     let mat;
-                    if (comp.shader === "celestial_void") {
+                    if (comp.shader === "solid" || comp.shader === "standard" || (!comp.shader && comp.blendMode === "NORMAL")) {
+                        const isOpaque = (comp.blendMode === "NORMAL" || comp.blendMode === "OPAQUE" || !comp.blendMode);
+                        const c = comp.color || [0.85, 0.85, 0.85];
+                        mat = new THREE.MeshStandardMaterial({
+                            color: new THREE.Color(c[0], c[1], c[2]),
+                            roughness: comp.roughness !== undefined ? comp.roughness : 0.45,
+                            metalness: comp.metalness !== undefined ? comp.metalness : 0.05,
+                            transparent: !isOpaque,
+                            opacity: comp.alpha !== undefined ? comp.alpha : 1.0,
+                            blending: isOpaque ? THREE.NormalBlending : (comp.blendMode === "ADDITIVE" ? THREE.AdditiveBlending : THREE.NormalBlending),
+                            depthWrite: isOpaque || !!comp.depthMask,
+                            side: THREE.DoubleSide,
+                            wireframe: !!comp.wireframe
+                        });
+                    } else if (comp.shader === "basic" || comp.shader === "default") {
+                        const isOpaque = (comp.blendMode === "NORMAL" || comp.blendMode === "OPAQUE" || !comp.blendMode);
+                        const c = comp.color || [0.85, 0.85, 0.85];
+                        mat = new THREE.MeshBasicMaterial({
+                            color: new THREE.Color(c[0], c[1], c[2]),
+                            transparent: !isOpaque,
+                            opacity: comp.alpha !== undefined ? comp.alpha : 1.0,
+                            blending: isOpaque ? THREE.NormalBlending : (comp.blendMode === "ADDITIVE" ? THREE.AdditiveBlending : THREE.NormalBlending),
+                            depthWrite: isOpaque || !!comp.depthMask,
+                            side: THREE.DoubleSide,
+                            wireframe: !!comp.wireframe
+                        });
+                    } else if (comp.shader === "celestial_void") {
                         mat = createCelestialVoidShaderMaterial(comp);
                     } else if (comp.shader === "aura_cel") {
                         mat = createAuraCelShaderMaterial(comp);
@@ -4715,12 +5026,18 @@
                     } else if (comp.shader === "universal_energy" || comp.shader === "energy_core" || comp.hotCoreColor || comp.rimColor) {
                         mat = createUniversalShaderMaterial(comp);
                     } else {
-                        mat = new THREE.MeshBasicMaterial({
-                            color: 0xffffff,
-                            transparent: true,
-                            blending: comp.blendMode === "NORMAL" ? THREE.NormalBlending : THREE.AdditiveBlending,
-                            depthWrite: !!comp.depthMask,
-                            side: THREE.DoubleSide
+                        const isOpaque = (comp.blendMode === "NORMAL" || comp.blendMode === "OPAQUE" || !comp.blendMode);
+                        const c = comp.color || [0.85, 0.85, 0.85];
+                        mat = new THREE.MeshStandardMaterial({
+                            color: new THREE.Color(c[0], c[1], c[2]),
+                            roughness: 0.45,
+                            metalness: 0.05,
+                            transparent: !isOpaque,
+                            opacity: comp.alpha !== undefined ? comp.alpha : 1.0,
+                            blending: isOpaque ? THREE.NormalBlending : THREE.AdditiveBlending,
+                            depthWrite: isOpaque || !!comp.depthMask,
+                            side: THREE.DoubleSide,
+                            wireframe: !!comp.wireframe
                         });
                     }
 
@@ -5595,13 +5912,14 @@
                             <div class="form-col">
                                 <label>Shader Program</label>
                                 <select onchange="updateCompProperty(${idx}, 'shader', this.value)">
-                                    <option value="celestial_void" ${comp.shader === 'celestial_void' ? 'selected' : ''}>Void Singularity Core (Non-Linear Accretion & High-Voltage Corona)</option>
-                                    <option value="aura_cel" ${comp.shader === 'aura_cel' ? 'selected' : ''}>Stylized Plasma Aura (Multi-Band Stepped Cel Shading)</option>
-                                    <option value="universal_energy" ${(comp.shader === 'universal_energy' || !comp.shader) ? 'selected' : ''}>Universal Emissive Plasma (Hot Core & Fresnel Limb Darkening)</option>
-                                    <option value="energy_disc" ${comp.shader === 'energy_disc' ? 'selected' : ''}>Planar Plasma Disc (Radial Teeth & Concentric Bands)</option>
-                                    <option value="energy_core" ${comp.shader === 'energy_core' ? 'selected' : ''}>Emissive Energy Core (Radial Falloff)</option>
-                                    <option value="hakai_core" ${comp.shader === 'hakai_core' ? 'selected' : ''}>Singularity Void (Negative Flux)</option>
-                                    <option value="default" ${comp.shader === 'default' ? 'selected' : ''}>Unshaded Default</option>
+                                    <option value="solid" ${(comp.shader === 'solid' || (!comp.shader && comp.blendMode === 'NORMAL')) ? 'selected' : ''}>📦 Solid Standard (3D Shaded / Lit)</option>
+                                    <option value="basic" ${comp.shader === 'basic' ? 'selected' : ''}>⚪ Solid Unlit (Flat Base Color)</option>
+                                    <option value="universal_energy" ${(comp.shader === 'universal_energy' || (!comp.shader && comp.blendMode !== 'NORMAL')) ? 'selected' : ''}>🔮 Universal Emissive Plasma (Hot Core & Fresnel)</option>
+                                    <option value="celestial_void" ${comp.shader === 'celestial_void' ? 'selected' : ''}>🌑 Void Singularity Core (Curvature & Corona)</option>
+                                    <option value="aura_cel" ${comp.shader === 'aura_cel' ? 'selected' : ''}>🔥 Stylized Plasma Aura (Cel-Shaded)</option>
+                                    <option value="energy_disc" ${comp.shader === 'energy_disc' ? 'selected' : ''}>💿 Planar Plasma Disc (Radial Teeth & Bands)</option>
+                                    <option value="energy_core" ${comp.shader === 'energy_core' ? 'selected' : ''}>⚡ Emissive Energy Core (Radial Falloff)</option>
+                                    <option value="hakai_core" ${comp.shader === 'hakai_core' ? 'selected' : ''}>🌌 Singularity Void (Negative Flux)</option>
                                 </select>
                             </div>
                             <div class="form-col">
@@ -5846,20 +6164,24 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-col-3">
+                            <div class="form-col-4">
                                 <label>Blend Mode</label>
                                 <select onchange="updateCompProperty(${idx}, 'blendMode', this.value)">
-                                    <option value="ADDITIVE" ${comp.blendMode === 'ADDITIVE' ? 'selected' : ''}>Additive</option>
-                                    <option value="NORMAL" ${comp.blendMode === 'NORMAL' ? 'selected' : ''}>Normal</option>
+                                    <option value="NORMAL" ${comp.blendMode === 'NORMAL' ? 'selected' : ''}>Normal (Opaque)</option>
+                                    <option value="ADDITIVE" ${comp.blendMode === 'ADDITIVE' ? 'selected' : ''}>Additive (Glow)</option>
                                 </select>
                             </div>
-                            <div class="form-col-3">
+                            <div class="form-col-4">
                                 <label>Depth Mask</label>
                                 <input type="checkbox" ${comp.depthMask ? 'checked' : ''} onchange="updateCompProperty(${idx}, 'depthMask', this.checked)">
                             </div>
-                            <div class="form-col-3">
+                            <div class="form-col-4">
                                 <label>Billboard</label>
                                 <input type="checkbox" ${comp.billboard ? 'checked' : ''} onchange="updateCompProperty(${idx}, 'billboard', this.checked)">
+                            </div>
+                            <div class="form-col-4">
+                                <label>Wireframe</label>
+                                <input type="checkbox" ${comp.wireframe ? 'checked' : ''} onchange="updateCompProperty(${idx}, 'wireframe', this.checked)">
                             </div>
                         </div>
                         ` : ''}
