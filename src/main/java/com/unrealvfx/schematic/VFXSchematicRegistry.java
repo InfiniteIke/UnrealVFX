@@ -108,6 +108,13 @@ public class VFXSchematicRegistry {
 
                 // Delega al proxy (su client compila il blueprint GL; su server dedicato è un no-op)
                 UnrealVFX.proxy.registerClientSchematic(schematic.getId(), json);
+
+                // Registra anche il nome del file (senza .json) come alias per comodità utente
+                String fileBaseName = fileName.endsWith(".json") ? fileName.substring(0, fileName.length() - 5) : fileName;
+                if (!schematic.getId().equalsIgnoreCase(fileBaseName)) {
+                    schematics.put(fileBaseName, schematic);
+                    UnrealVFX.proxy.registerClientSchematic(fileBaseName, json);
+                }
             } catch (Exception e) {
                 UnrealVFX.LOGGER.error("Impossibile caricare lo schematic VFX dal file: " + file.getAbsolutePath(), e);
             }
