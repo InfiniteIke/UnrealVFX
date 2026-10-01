@@ -1400,6 +1400,10 @@
                     <div class="add-elem-title">♨️ Heat Distortion Volume</div>
                     <div class="add-elem-desc">Spherical screen-space refraction pass with multi-octave thermal turbulence.</div>
                 </div>
+                <div class="add-elem-card" onclick="addPresetComponent('slash_arc')">
+                    <div class="add-elem-title">🗡️ Slash Arc (Katana Energy Blade)</div>
+                    <div class="add-elem-desc">High-velocity polar crescent slash ribbon with incandescent leading razor edge, smooth trailing dissipation and dynamic lifetime expansion.</div>
+                </div>
 
                 <!-- 4. PRESET COMPLESSI & MODULI VFX SPECIALIZZATI -->
                 <div class="modal-section-header divider">
@@ -2490,6 +2494,12 @@
             IN_OUT_QUAD: t => t < 0.5 ? 2.0 * t * t : -1.0 + (4.0 - 2.0 * t) * t,
             OUT_EXPO: t => (t === 1.0) ? 1.0 : 1.0 - Math.pow(2.0, -10.0 * t),
             IN_EXPO: t => (t === 0.0) ? 0.0 : Math.pow(2.0, 10.0 * (t - 1.0)),
+            OUT_ELASTIC: t => {
+                if (t === 0.0) return 0.0;
+                if (t === 1.0) return 1.0;
+                const p = 0.3;
+                return Math.pow(2.0, -10.0 * t) * Math.sin((t - p / 4.0) * (2.0 * Math.PI) / p) + 1.0;
+            },
             OUT_BOUNCE: t => {
                 const n1 = 7.5625, d1 = 2.75;
                 if (t < 1 / d1) return n1 * t * t;
@@ -2498,6 +2508,135 @@
                 else return n1 * (t -= 2.625 / d1) * t + 0.984375;
             }
         };
+
+        function isScaleAnimated(scale) {
+            return (typeof scale === 'object' && scale !== null && !Array.isArray(scale) && (scale.start !== undefined || scale.end !== undefined));
+        }
+
+        function getScaleStartAxis(scale, axis) {
+            if (isScaleAnimated(scale)) {
+                if (Array.isArray(scale.start)) return scale.start[axis] !== undefined ? scale.start[axis] : 1.0;
+                if (typeof scale.start === 'number') return scale.start;
+            }
+            return getScaleAxis(scale, axis);
+        }
+
+        function getScaleEndAxis(scale, axis) {
+            if (isScaleAnimated(scale)) {
+                if (Array.isArray(scale.end)) return scale.end[axis] !== undefined ? scale.end[axis] : 1.0;
+                if (typeof scale.end === 'number') return scale.end;
+            }
+            return getScaleAxis(scale, axis);
+        }
+
+        function getScaleEasing(scale) {
+            if (isScaleAnimated(scale)) {
+                return scale.easing || "LINEAR";
+            }
+            return "LINEAR";
+        }
+
+        function isAlphaAnimated(alpha) {
+            return (typeof alpha === 'object' && alpha !== null && (alpha.start !== undefined || alpha.end !== undefined));
+        }
+
+        function getAlphaStart(alpha) {
+            if (isAlphaAnimated(alpha)) return alpha.start !== undefined ? alpha.start : 1.0;
+            return typeof alpha === 'number' ? alpha : 1.0;
+        }
+
+        function getAlphaEnd(alpha) {
+            if (isAlphaAnimated(alpha)) return alpha.end !== undefined ? alpha.end : 1.0;
+            return typeof alpha === 'number' ? alpha : 1.0;
+        }
+
+        function getAlphaEasing(alpha) {
+            if (isAlphaAnimated(alpha)) return alpha.easing || "LINEAR";
+            return "LINEAR";
+        }
+
+        function drawEasingCurveCanvas(canvasId, easingName, currentProgress = 0) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const padX = 14;
+            const padY = 14;
+            const graphW = w - padX * 2;
+            const graphH = h - padY * 2;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Subtle dark background
+            ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
+            ctx.fillRect(0, 0, w, h);
+
+            // Grid lines
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(padX, padY); ctx.lineTo(padX + graphW, padY);
+            ctx.moveTo(padX, padY + graphH * 0.5); ctx.lineTo(padX + graphW, padY + graphH * 0.5);
+            ctx.moveTo(padX, padY + graphH); ctx.lineTo(padX + graphW, padY + graphH);
+            ctx.stroke();
+
+            // Diagonal baseline (linear reference)
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+            ctx.setLineDash([2, 3]);
+            ctx.beginPath();
+            ctx.moveTo(padX, padY + graphH);
+            ctx.lineTo(padX + graphW, padY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Easing Curve
+            const easeFunc = Easing[easingName] || Easing.LINEAR;
+            ctx.strokeStyle = "#64D2FF";
+            ctx.lineWidth = 2.2;
+            ctx.beginPath();
+
+            const steps = 70;
+            for (let i = 0; i <= steps; i++) {
+                const t = i / steps;
+                const factor = easeFunc(t);
+                const px = padX + t * graphW;
+                const py = (padY + graphH) - factor * graphH;
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+
+            // Tracer Dot for current progress
+            const curT = Math.max(0, Math.min(1, currentProgress));
+            const curFactor = easeFunc(curT);
+            const dotX = padX + curT * graphW;
+            const dotY = (padY + graphH) - curFactor * graphH;
+
+            // Outer glow
+            ctx.beginPath();
+            ctx.arc(dotX, dotY, 6, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(100, 210, 255, 0.40)";
+            ctx.fill();
+
+            // Inner solid dot
+            ctx.beginPath();
+            ctx.arc(dotX, dotY, 3, 0, Math.PI * 2);
+            ctx.fillStyle = "#ffffff";
+            ctx.fill();
+
+            // Text info
+            ctx.fillStyle = "rgba(255, 255, 255, 0.70)";
+            ctx.font = "9px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif";
+            ctx.fillText(`${easingName} | t:${curT.toFixed(2)} → ${curFactor.toFixed(2)}`, padX + 4, padY + 11);
+        }
+
+        function drawActiveEasingCurves(currentProgress = 0) {
+            document.querySelectorAll('canvas[data-easing-curve]').forEach(c => {
+                const easeName = c.getAttribute('data-easing-curve') || 'LINEAR';
+                drawEasingCurveCanvas(c.id, easeName, currentProgress);
+            });
+        }
 
         function evaluateEasing(valDef, t, defVal) {
             if (valDef === undefined || valDef === null) return defVal;
@@ -2976,6 +3115,29 @@
                         strength: 0.035,
                         speed: 1.0,
                         offset: [0.0, 1.5, 0.0]
+                    };
+                    break;
+                case 'slash_arc':
+                    newComp = {
+                        type: "mesh",
+                        meshType: "RING",
+                        shader: "slash_arc",
+                        scale: {
+                            start: [0.8, 0.8, 0.8],
+                            end: [4.5, 4.5, 4.5],
+                            easing: "OUT_EXPO"
+                        },
+                        alpha: {
+                            start: 1.0,
+                            end: 0.0,
+                            easing: "IN_QUAD"
+                        },
+                        color: [0.2, 0.85, 1.0],
+                        hotCoreColor: [1.0, 1.0, 1.0],
+                        initialRotation: [90.0, 0.0, 0.0],
+                        rotationSpeed: [0.0, 15.0, 0.0],
+                        blendMode: "ADDITIVE",
+                        depthMask: false
                     };
                     break;
 
@@ -4109,6 +4271,63 @@
             });
         }
 
+        function createSlashArcShaderMaterial(comp) {
+            const baseCol = comp.color || [0.2, 0.8, 1.0];
+            const hotCore = comp.hotCoreColor || [1.0, 1.0, 1.0];
+            return new THREE.ShaderMaterial({
+                vertexShader: `
+                    varying vec2 v_texCoord;
+                    void main() {
+                        v_texCoord = uv;
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    }
+                `,
+                fragmentShader: `
+                    varying vec2 v_texCoord;
+                    uniform float u_time;
+                    uniform float u_progress;
+                    uniform vec4 u_color;
+                    uniform vec3 u_hotCore;
+                    void main() {
+                        vec2 uv = v_texCoord * 2.0 - 1.0;
+                        float dist = length(uv);
+                        if (dist < 0.45 || dist > 1.0) discard;
+
+                        float angle = (atan(uv.y, uv.x) + 3.14159265) / 6.2831853;
+
+                        float arcSweep = fract(u_progress + 0.25);
+                        float deltaAngle = fract(angle - arcSweep + 1.0);
+
+                        float arcSpan = 0.42;
+                        if (deltaAngle > arcSpan) discard;
+
+                        float trailFactor = 1.0 - (deltaAngle / arcSpan);
+
+                        float radialWidth = 1.0 - abs(dist - 0.725) / 0.275;
+                        radialWidth = smoothstep(0.0, 0.4, radialWidth);
+
+                        float hotEdge = pow(trailFactor, 4.0);
+                        vec3 finalRgb = mix(u_color.rgb, u_hotCore, hotEdge);
+
+                        float alpha = trailFactor * radialWidth * u_color.a;
+                        if (alpha < 0.01) discard;
+
+                        gl_FragColor = vec4(finalRgb * (1.2 + hotEdge * 1.5), alpha);
+                    }
+                `,
+                uniforms: {
+                    u_time: { value: 0.0 },
+                    u_progress: { value: 0.0 },
+                    u_color: { value: new THREE.Vector4(baseCol[0], baseCol[1], baseCol[2], comp.alpha !== undefined ? (typeof comp.alpha === 'number' ? comp.alpha : 1.0) : 1.0) },
+                    u_hotCore: { value: new THREE.Vector3(hotCore[0], hotCore[1], hotCore[2]) }
+                },
+                transparent: true,
+                blending: comp.blendMode === "NORMAL" ? THREE.NormalBlending : THREE.AdditiveBlending,
+                depthWrite: !!comp.depthMask,
+                side: THREE.DoubleSide
+            });
+        }
+
         function createHakaiCoreShaderMaterial(comp) {
             const baseCol = comp.color || [0.05, 0.0, 0.1];
             return new THREE.ShaderMaterial({
@@ -4893,6 +5112,7 @@
             const pct = (currentTick / Math.max(1, duration)) * 100;
             slider.style.background = `linear-gradient(to right, var(--accent-blue) 0%, var(--accent-cyan) ${pct}%, rgba(255, 255, 255, 0.12) ${pct}%, rgba(255, 255, 255, 0.12) 100%)`;
             document.getElementById('time-display').innerText = `${currentTick.toFixed(1)} / ${duration}t`;
+            drawActiveEasingCurves(currentTick / Math.max(1, duration));
         }
 
         // =========================================================================
@@ -5021,6 +5241,8 @@
                         mat = createAuraCelShaderMaterial(comp);
                     } else if (comp.shader === "energy_disc") {
                         mat = createEnergyDiscShaderMaterial(comp);
+                    } else if (comp.shader === "slash_arc") {
+                        mat = createSlashArcShaderMaterial(comp);
                     } else if (comp.shader === "hakai_core") {
                         mat = createHakaiCoreShaderMaterial(comp);
                     } else if (comp.shader === "universal_energy" || comp.shader === "energy_core" || comp.hotCoreColor || comp.rimColor) {
@@ -5513,6 +5735,7 @@
 
                         if (inst.material.uniforms) {
                             if (inst.material.uniforms.u_time) inst.material.uniforms.u_time.value = effTick * 0.05;
+                            if (inst.material.uniforms.u_progress) inst.material.uniforms.u_progress.value = effInstProgress;
                             if (inst.material.uniforms.u_steppedFps) inst.material.uniforms.u_steppedFps.value = steppedFps;
                             if (inst.material.uniforms.u_color && inst.material.uniforms.u_color.value) {
                                 if (typeof inst.material.uniforms.u_color.value.set === 'function') {
@@ -5918,6 +6141,7 @@
                                     <option value="celestial_void" ${comp.shader === 'celestial_void' ? 'selected' : ''}>🌑 Void Singularity Core (Curvature & Corona)</option>
                                     <option value="aura_cel" ${comp.shader === 'aura_cel' ? 'selected' : ''}>🔥 Stylized Plasma Aura (Cel-Shaded)</option>
                                     <option value="energy_disc" ${comp.shader === 'energy_disc' ? 'selected' : ''}>💿 Planar Plasma Disc (Radial Teeth & Bands)</option>
+                                    <option value="slash_arc" ${comp.shader === 'slash_arc' ? 'selected' : ''}>🗡️ Slash Arc (Polar Katana / Sword Sweep)</option>
                                     <option value="energy_core" ${comp.shader === 'energy_core' ? 'selected' : ''}>⚡ Emissive Energy Core (Radial Falloff)</option>
                                     <option value="hakai_core" ${comp.shader === 'hakai_core' ? 'selected' : ''}>🌌 Singularity Void (Negative Flux)</option>
                                 </select>
@@ -6028,8 +6252,15 @@
                         </div>
                         `}
 
-                        <!-- 3D TRANSFORM SECTION -->
-                        <div class="section-header">3D Non-Uniform Scale & Position</div>
+                        <!-- 3D TRANSFORM & SCALE ANIMATION SECTION -->
+                        <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>3D Transform & Dynamic Scale</span>
+                            <label style="font-size: 10px; font-weight: normal; display: flex; align-items: center; gap: 4px; text-transform: none; cursor: pointer; color: var(--accent-cyan);">
+                                <input type="checkbox" ${isScaleAnimated(comp.scale) ? 'checked' : ''} onchange="toggleScaleAnimated(${idx}, this.checked)">
+                                Animated Scale
+                            </label>
+                        </div>
+                        ${!isScaleAnimated(comp.scale) ? `
                         <div class="form-row">
                             <div class="form-col-3">
                                 <label>Scale X</label>
@@ -6044,6 +6275,85 @@
                                 <input type="number" step="0.1" id="input-scale-2" value="${getScaleAxis(comp.scale, 2)}" onchange="updateScaleVec(${idx}, 2, parseFloat(this.value))">
                             </div>
                         </div>
+                        ` : `
+                        <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--panel-border); border-radius: 8px; padding: 8px; margin-bottom: 8px;">
+                            <div style="font-size: 10px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 4px;">Start Scale [X, Y, Z]</div>
+                            <div class="form-row" style="margin-bottom: 6px;">
+                                <div class="form-col-3"><input type="number" step="0.1" value="${getScaleStartAxis(comp.scale, 0)}" onchange="updateScaleStartVec(${idx}, 0, parseFloat(this.value))"></div>
+                                <div class="form-col-3"><input type="number" step="0.1" value="${getScaleStartAxis(comp.scale, 1)}" onchange="updateScaleStartVec(${idx}, 1, parseFloat(this.value))"></div>
+                                <div class="form-col-3"><input type="number" step="0.1" value="${getScaleStartAxis(comp.scale, 2)}" onchange="updateScaleStartVec(${idx}, 2, parseFloat(this.value))"></div>
+                            </div>
+                            <div style="font-size: 10px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 4px;">End Scale [X, Y, Z]</div>
+                            <div class="form-row" style="margin-bottom: 6px;">
+                                <div class="form-col-3"><input type="number" step="0.1" value="${getScaleEndAxis(comp.scale, 0)}" onchange="updateScaleEndVec(${idx}, 0, parseFloat(this.value))"></div>
+                                <div class="form-col-3"><input type="number" step="0.1" value="${getScaleEndAxis(comp.scale, 1)}" onchange="updateScaleEndVec(${idx}, 1, parseFloat(this.value))"></div>
+                                <div class="form-col-3"><input type="number" step="0.1" value="${getScaleEndAxis(comp.scale, 2)}" onchange="updateScaleEndVec(${idx}, 2, parseFloat(this.value))"></div>
+                            </div>
+                            <div class="form-row" style="align-items: center;">
+                                <div class="form-col" style="flex: 1.2;">
+                                    <label>Scale Easing Curve</label>
+                                    <select onchange="updateScaleEasing(${idx}, this.value)">
+                                        <option value="OUT_EXPO" ${getScaleEasing(comp.scale) === 'OUT_EXPO' ? 'selected' : ''}>OUT_EXPO (Explosive Decay)</option>
+                                        <option value="OUT_QUAD" ${getScaleEasing(comp.scale) === 'OUT_QUAD' ? 'selected' : ''}>OUT_QUAD (Smooth Decel)</option>
+                                        <option value="LINEAR" ${getScaleEasing(comp.scale) === 'LINEAR' ? 'selected' : ''}>LINEAR (Constant Speed)</option>
+                                        <option value="IN_QUAD" ${getScaleEasing(comp.scale) === 'IN_QUAD' ? 'selected' : ''}>IN_QUAD (Accelerating)</option>
+                                        <option value="IN_OUT_QUAD" ${getScaleEasing(comp.scale) === 'IN_OUT_QUAD' ? 'selected' : ''}>IN_OUT_QUAD (S-Curve)</option>
+                                        <option value="IN_EXPO" ${getScaleEasing(comp.scale) === 'IN_EXPO' ? 'selected' : ''}>IN_EXPO (Extreme Accel)</option>
+                                        <option value="OUT_ELASTIC" ${getScaleEasing(comp.scale) === 'OUT_ELASTIC' ? 'selected' : ''}>OUT_ELASTIC (Dynamic Bounce)</option>
+                                        <option value="OUT_BOUNCE" ${getScaleEasing(comp.scale) === 'OUT_BOUNCE' ? 'selected' : ''}>OUT_BOUNCE (Physical Rebound)</option>
+                                    </select>
+                                </div>
+                                <div class="form-col" style="flex: 1; text-align: center;">
+                                    <canvas id="scale-easing-canvas-${idx}" data-easing-curve="${getScaleEasing(comp.scale)}" width="110" height="52" style="border-radius: 6px; border: 1px solid var(--panel-border); background: #05070b; vertical-align: middle;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        `}
+
+                        <!-- DYNAMIC ALPHA FADE SECTION -->
+                        <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Transparency & Alpha Fade</span>
+                            <label style="font-size: 10px; font-weight: normal; display: flex; align-items: center; gap: 4px; text-transform: none; cursor: pointer; color: var(--accent-cyan);">
+                                <input type="checkbox" ${isAlphaAnimated(comp.alpha) ? 'checked' : ''} onchange="toggleAlphaAnimated(${idx}, this.checked)">
+                                Animated Alpha
+                            </label>
+                        </div>
+                        ${!isAlphaAnimated(comp.alpha) ? `
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label>Alpha Opacity (0.0 = Clear, 1.0 = Opaque)</label>
+                                <input type="number" step="0.05" min="0" max="1" value="${comp.alpha !== undefined ? (typeof comp.alpha === 'number' ? comp.alpha : 1.0) : 1.0}" onchange="updateCompProperty(${idx}, 'alpha', parseFloat(this.value))">
+                            </div>
+                        </div>
+                        ` : `
+                        <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--panel-border); border-radius: 8px; padding: 8px; margin-bottom: 8px;">
+                            <div class="form-row" style="margin-bottom: 6px;">
+                                <div class="form-col">
+                                    <label>Start Alpha</label>
+                                    <input type="number" step="0.05" min="0" max="1" value="${getAlphaStart(comp.alpha)}" onchange="updateAlphaStart(${idx}, parseFloat(this.value))">
+                                </div>
+                                <div class="form-col">
+                                    <label>End Alpha</label>
+                                    <input type="number" step="0.05" min="0" max="1" value="${getAlphaEnd(comp.alpha)}" onchange="updateAlphaEnd(${idx}, parseFloat(this.value))">
+                                </div>
+                            </div>
+                            <div class="form-row" style="align-items: center;">
+                                <div class="form-col" style="flex: 1.2;">
+                                    <label>Alpha Easing Curve</label>
+                                    <select onchange="updateAlphaEasing(${idx}, this.value)">
+                                        <option value="IN_QUAD" ${getAlphaEasing(comp.alpha) === 'IN_QUAD' ? 'selected' : ''}>IN_QUAD (Accelerated Fade)</option>
+                                        <option value="OUT_QUAD" ${getAlphaEasing(comp.alpha) === 'OUT_QUAD' ? 'selected' : ''}>OUT_QUAD (Gentle Falloff)</option>
+                                        <option value="LINEAR" ${getAlphaEasing(comp.alpha) === 'LINEAR' ? 'selected' : ''}>LINEAR (Constant Fade)</option>
+                                        <option value="OUT_EXPO" ${getAlphaEasing(comp.alpha) === 'OUT_EXPO' ? 'selected' : ''}>OUT_EXPO (Sudden Drop)</option>
+                                        <option value="IN_OUT_QUAD" ${getAlphaEasing(comp.alpha) === 'IN_OUT_QUAD' ? 'selected' : ''}>IN_OUT_QUAD (Smooth S-Curve)</option>
+                                    </select>
+                                </div>
+                                <div class="form-col" style="flex: 1; text-align: center;">
+                                    <canvas id="alpha-easing-canvas-${idx}" data-easing-curve="${getAlphaEasing(comp.alpha)}" width="110" height="52" style="border-radius: 6px; border: 1px solid var(--panel-border); background: #05070b; vertical-align: middle;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        `}
 
                         <div class="form-row">
                             <div class="form-col-3">
@@ -6399,7 +6709,7 @@
 
                         ${comp.type === 'shockwave' ? `
                         <!-- SHOCKWAVE CONTROLS -->
-                        <div class="section-header">Shockwave Ring Controls</div>
+                        <div class="section-header">Shockwave Ring & Dynamic Expansion</div>
                         <div class="form-row">
                             <div class="form-col">
                                 <label>Start Radius</label>
@@ -6408,6 +6718,21 @@
                             <div class="form-col">
                                 <label>End Radius</label>
                                 <input type="number" step="0.5" value="${comp.radius && comp.radius.end !== undefined ? comp.radius.end : (typeof comp.radius === 'number' ? comp.radius : 6.0)}" onchange="updatePropNested(${idx}, 'radius', 'end', parseFloat(this.value))">
+                            </div>
+                        </div>
+                        <div class="form-row" style="align-items: center;">
+                            <div class="form-col" style="flex: 1.2;">
+                                <label>Expansion Easing Curve</label>
+                                <select onchange="updatePropNested(${idx}, 'radius', 'easing', this.value); drawEasingCurveCanvas('shockwave-easing-canvas-${idx}', this.value, currentTick / Math.max(1, currentSchematic.duration || 60));">
+                                    <option value="OUT_QUAD" ${(comp.radius && comp.radius.easing === 'OUT_QUAD') || !comp.radius || !comp.radius.easing ? 'selected' : ''}>OUT_QUAD (Smooth Decel)</option>
+                                    <option value="OUT_EXPO" ${comp.radius && comp.radius.easing === 'OUT_EXPO' ? 'selected' : ''}>OUT_EXPO (High-Speed Burst)</option>
+                                    <option value="LINEAR" ${comp.radius && comp.radius.easing === 'LINEAR' ? 'selected' : ''}>LINEAR (Constant Speed)</option>
+                                    <option value="IN_QUAD" ${comp.radius && comp.radius.easing === 'IN_QUAD' ? 'selected' : ''}>IN_QUAD (Accelerating)</option>
+                                    <option value="OUT_BOUNCE" ${comp.radius && comp.radius.easing === 'OUT_BOUNCE' ? 'selected' : ''}>OUT_BOUNCE (Physical Rebound)</option>
+                                </select>
+                            </div>
+                            <div class="form-col" style="flex: 1; text-align: center;">
+                                <canvas id="shockwave-easing-canvas-${idx}" data-easing-curve="${(comp.radius && comp.radius.easing) || 'OUT_QUAD'}" width="110" height="52" style="border-radius: 6px; border: 1px solid var(--panel-border); background: #05070b; vertical-align: middle;"></canvas>
                             </div>
                         </div>
                         <div class="form-row">
@@ -6835,6 +7160,7 @@
             });
 
             updateJsonTextarea();
+            setTimeout(() => drawActiveEasingCurves(currentTick / Math.max(1, (currentSchematic.duration || 60))), 15);
         }
 
         // =========================================================================
@@ -6850,6 +7176,95 @@
             currentSchematic.components[idx][prop] = hexToRgb(hexVal);
             rebuildVFX();
             renderComponentsList();
+        }
+
+        function toggleScaleAnimated(idx, isAnim) {
+            const comp = currentSchematic.components[idx];
+            if (isAnim) {
+                const curX = getScaleAxis(comp.scale, 0);
+                const curY = getScaleAxis(comp.scale, 1);
+                const curZ = getScaleAxis(comp.scale, 2);
+                comp.scale = {
+                    start: [parseFloat((curX * 0.15).toFixed(2)), parseFloat((curY * 0.15).toFixed(2)), parseFloat((curZ * 0.15).toFixed(2))],
+                    end: [curX, curY, curZ],
+                    easing: "OUT_EXPO"
+                };
+            } else {
+                comp.scale = [getScaleEndAxis(comp.scale, 0), getScaleEndAxis(comp.scale, 1), getScaleEndAxis(comp.scale, 2)];
+            }
+            rebuildVFX();
+            renderComponentsList();
+        }
+
+        function updateScaleStartVec(idx, axis, val) {
+            const comp = currentSchematic.components[idx];
+            if (!isScaleAnimated(comp.scale)) toggleScaleAnimated(idx, true);
+            if (!Array.isArray(comp.scale.start)) comp.scale.start = [comp.scale.start || 1, comp.scale.start || 1, comp.scale.start || 1];
+            comp.scale.start[axis] = val;
+            rebuildVFX();
+            updateJsonTextarea();
+        }
+
+        function updateScaleEndVec(idx, axis, val) {
+            const comp = currentSchematic.components[idx];
+            if (!isScaleAnimated(comp.scale)) {
+                updateScaleVec(idx, axis, val);
+                return;
+            }
+            if (!Array.isArray(comp.scale.end)) comp.scale.end = [comp.scale.end || 1, comp.scale.end || 1, comp.scale.end || 1];
+            comp.scale.end[axis] = val;
+            rebuildVFX();
+            updateJsonTextarea();
+        }
+
+        function updateScaleEasing(idx, easingName) {
+            const comp = currentSchematic.components[idx];
+            if (!isScaleAnimated(comp.scale)) toggleScaleAnimated(idx, true);
+            comp.scale.easing = easingName;
+            rebuildVFX();
+            updateJsonTextarea();
+            drawEasingCurveCanvas(`scale-easing-canvas-${idx}`, easingName, currentTick / Math.max(1, currentSchematic.duration || 60));
+        }
+
+        function toggleAlphaAnimated(idx, isAnim) {
+            const comp = currentSchematic.components[idx];
+            if (isAnim) {
+                const cur = typeof comp.alpha === 'number' ? comp.alpha : 1.0;
+                comp.alpha = {
+                    start: cur,
+                    end: 0.0,
+                    easing: "IN_QUAD"
+                };
+            } else {
+                comp.alpha = (typeof comp.alpha === 'object' && comp.alpha.start !== undefined) ? comp.alpha.start : 1.0;
+            }
+            rebuildVFX();
+            renderComponentsList();
+        }
+
+        function updateAlphaStart(idx, val) {
+            const comp = currentSchematic.components[idx];
+            if (!isAlphaAnimated(comp.alpha)) toggleAlphaAnimated(idx, true);
+            comp.alpha.start = val;
+            rebuildVFX();
+            updateJsonTextarea();
+        }
+
+        function updateAlphaEnd(idx, val) {
+            const comp = currentSchematic.components[idx];
+            if (!isAlphaAnimated(comp.alpha)) toggleAlphaAnimated(idx, true);
+            comp.alpha.end = val;
+            rebuildVFX();
+            updateJsonTextarea();
+        }
+
+        function updateAlphaEasing(idx, easingName) {
+            const comp = currentSchematic.components[idx];
+            if (!isAlphaAnimated(comp.alpha)) toggleAlphaAnimated(idx, true);
+            comp.alpha.easing = easingName;
+            rebuildVFX();
+            updateJsonTextarea();
+            drawEasingCurveCanvas(`alpha-easing-canvas-${idx}`, easingName, currentTick / Math.max(1, currentSchematic.duration || 60));
         }
 
         function updateScaleVec(idx, axis, val) {
