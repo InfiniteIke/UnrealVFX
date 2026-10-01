@@ -1279,6 +1279,14 @@
                     <div class="preset-name" style="color: #e066ff;">Stylized Plasma Aura (Stepped Cel Bands & Hot Core)</div>
                     <div class="preset-desc">Vertex-displaced plasma capsule featuring 3-band quantized cel-shading & emissive interior core</div>
                 </div>
+                <div class="preset-btn featured" data-category="anime" onclick="loadPreset('katana_slash_arc')" style="background: linear-gradient(135deg, rgba(0, 240, 255, 0.22), rgba(255, 255, 255, 0.12)); border-color: #00f0ff;">
+                    <div class="preset-name" style="color: #00f0ff;">🗡️ Katana Slash Arc (Polar Blade Sweep)</div>
+                    <div class="preset-desc">High-speed circular blade sweep with incandescent cutting edge, camera shake & directional spark needles</div>
+                </div>
+                <div class="preset-btn featured" data-category="anime" onclick="loadPreset('dissolve_energy_orb')" style="background: linear-gradient(135deg, rgba(255, 100, 0, 0.22), rgba(255, 220, 0, 0.12)); border-color: #ff6600;">
+                    <div class="preset-name" style="color: #ff8800;">🔥 Dissolve / Burn (Procedural Erosion Sphere)</div>
+                    <div class="preset-desc">Multi-octave noise erosion sphere with blazing incandescent burn edge and floating ember sparks</div>
+                </div>
                 <div class="preset-btn" data-category="anime" onclick="loadPreset('energy_slash')">
                     <div class="preset-name">Planar Arc Projectile (High-Velocity Energy Blade)</div>
                     <div class="preset-desc">High-velocity crescent arc mesh with directional trail ribbon and leading edge bloom</div>
@@ -1403,6 +1411,10 @@
                 <div class="add-elem-card" onclick="addPresetComponent('slash_arc')">
                     <div class="add-elem-title">🗡️ Slash Arc (Katana Energy Blade)</div>
                     <div class="add-elem-desc">High-velocity polar crescent slash ribbon with incandescent leading razor edge, smooth trailing dissipation and dynamic lifetime expansion.</div>
+                </div>
+                <div class="add-elem-card" onclick="addPresetComponent('dissolve_burn')">
+                    <div class="add-elem-title">🔥 Dissolve / Burn (Procedural Erosion)</div>
+                    <div class="add-elem-desc">Simplex/fractal noise erosion shader with blazing incandescent fire/plasma edge, dynamic lifetime disintegration or reverse materialization.</div>
                 </div>
 
                 <!-- 4. PRESET COMPLESSI & MODULI VFX SPECIALIZZATI -->
@@ -2464,6 +2476,123 @@
                         strength: 0.04
                     }
                 ]
+            },
+            katana_slash_arc: {
+                id: "katana_slash_arc",
+                duration: 25,
+                loop: false,
+                trackingRadius: 96.0,
+                components: [
+                    {
+                        type: "camera_shake",
+                        trauma: 0.35,
+                        fovKick: 3.0,
+                        continuous: false
+                    },
+                    {
+                        type: "distortion",
+                        startRadius: 0.4,
+                        endRadius: 3.5,
+                        strength: 0.06
+                    },
+                    {
+                        type: "mesh",
+                        meshType: "RING",
+                        shader: "slash_arc",
+                        scale: {
+                            start: [0.8, 0.8, 0.8],
+                            end: [5.2, 5.2, 5.2],
+                            easing: "OUT_EXPO"
+                        },
+                        alpha: {
+                            start: 1.0,
+                            end: 0.0,
+                            easing: "IN_QUAD"
+                        },
+                        color: [0.15, 0.85, 1.0],
+                        hotCoreColor: [1.0, 1.0, 1.0],
+                        initialRotation: [45.0, 0.0, 25.0],
+                        rotationSpeed: [0.0, 22.0, 0.0],
+                        blendMode: "ADDITIVE",
+                        depthMask: false
+                    },
+                    {
+                        type: "particle",
+                        particleType: "NEEDLE",
+                        spawnRate: 8,
+                        emissionRadius: 1.2,
+                        baseSpeed: 0.9,
+                        stretchFactor: 4.2,
+                        color: [0.35, 0.9, 1.0],
+                        suction: false,
+                        swirl: false
+                    }
+                ]
+            },
+            dissolve_energy_orb: {
+                id: "dissolve_energy_orb",
+                duration: 40,
+                loop: true,
+                trackingRadius: 96.0,
+                components: [
+                    {
+                        type: "camera_shake",
+                        trauma: 0.15,
+                        fovKick: 1.2,
+                        continuous: false
+                    },
+                    {
+                        type: "mesh",
+                        meshType: "SPHERE",
+                        shader: "dissolve_burn",
+                        scale: {
+                            start: [2.0, 2.0, 2.0],
+                            end: [2.6, 2.6, 2.6],
+                            easing: "OUT_QUAD"
+                        },
+                        alpha: {
+                            start: 1.0,
+                            end: 0.0,
+                            easing: "LINEAR"
+                        },
+                        color: [0.88, 0.32, 0.06],
+                        hotCoreColor: [1.0, 0.92, 0.35],
+                        noiseScale: 3.6,
+                        noiseSpeed: 1.1,
+                        bloomMultiplier: 2.8,
+                        filamentStrength: 0.095,
+                        invertedCore: false,
+                        blendMode: "ADDITIVE",
+                        depthMask: false
+                    },
+                    {
+                        type: "particle",
+                        particleType: "KI_EMBER",
+                        spawnRate: 10,
+                        emissionRadius: 1.8,
+                        baseSpeed: 0.65,
+                        stretchFactor: 2.2,
+                        color: [1.0, 0.7, 0.2],
+                        suction: false,
+                        swirl: true
+                    },
+                    {
+                        type: "distortion",
+                        startRadius: 0.6,
+                        endRadius: 3.8,
+                        strength: 0.05
+                    },
+                    {
+                        type: "light",
+                        shape: "POINT",
+                        radius: 9.0,
+                        intensity: 1.8,
+                        color: [1.0, 0.65, 0.2],
+                        pulsing: true,
+                        pulseSpeed: 5.0,
+                        pulseIntensity: 0.25
+                    }
+                ]
             }
         };
 
@@ -3136,6 +3265,32 @@
                         hotCoreColor: [1.0, 1.0, 1.0],
                         initialRotation: [90.0, 0.0, 0.0],
                         rotationSpeed: [0.0, 15.0, 0.0],
+                        blendMode: "ADDITIVE",
+                        depthMask: false
+                    };
+                    break;
+                case 'dissolve_burn':
+                    newComp = {
+                        type: "mesh",
+                        meshType: "SPHERE",
+                        shader: "dissolve_burn",
+                        scale: {
+                            start: [2.0, 2.0, 2.0],
+                            end: [2.6, 2.6, 2.6],
+                            easing: "OUT_QUAD"
+                        },
+                        alpha: {
+                            start: 1.0,
+                            end: 0.0,
+                            easing: "LINEAR"
+                        },
+                        color: [0.88, 0.32, 0.06],
+                        hotCoreColor: [1.0, 0.92, 0.35],
+                        noiseScale: 3.6,
+                        noiseSpeed: 1.1,
+                        bloomMultiplier: 2.8,
+                        filamentStrength: 0.095,
+                        invertedCore: false,
                         blendMode: "ADDITIVE",
                         depthMask: false
                     };
@@ -4328,6 +4483,149 @@
             });
         }
 
+        function createDissolveBurnShaderMaterial(comp) {
+            const baseCol = comp.color || [0.88, 0.32, 0.06];
+            const burnCol = comp.hotCoreColor || [1.0, 0.92, 0.35];
+            const noiseScale = comp.noiseScale !== undefined ? comp.noiseScale : 3.6;
+            const noiseSpeed = comp.noiseSpeed !== undefined ? comp.noiseSpeed : 1.1;
+            const bloomMult = comp.bloomMultiplier !== undefined ? comp.bloomMultiplier : 2.8;
+            const burnWidth = comp.filamentStrength !== undefined ? comp.filamentStrength : 0.095;
+            const invertedCore = comp.invertedCore ? 1.0 : 0.0;
+
+            return new THREE.ShaderMaterial({
+                vertexShader: `
+                    varying vec2 v_texCoord;
+                    varying vec3 v_normal;
+                    varying vec3 v_localPos;
+                    varying vec3 v_viewDir;
+
+                    void main() {
+                        v_texCoord = uv;
+                        v_normal = normalize(normalMatrix * normal);
+                        v_localPos = position;
+
+                        vec4 viewPos = modelViewMatrix * vec4(position, 1.0);
+                        v_viewDir = normalize(-viewPos.xyz);
+
+                        gl_Position = projectionMatrix * viewPos;
+                    }
+                `,
+                fragmentShader: `
+                    varying vec2 v_texCoord;
+                    varying vec3 v_normal;
+                    varying vec3 v_localPos;
+                    varying vec3 v_viewDir;
+
+                    uniform float u_time;
+                    uniform float u_progress;
+                    uniform vec4 u_color;
+                    uniform vec3 u_hotCore;
+                    uniform float u_noiseScale;
+                    uniform float u_noiseSpeed;
+                    uniform float u_bloomMultiplier;
+                    uniform float u_invertedCore;
+                    uniform float u_filamentStrength;
+
+                    float hash21(vec2 p) {
+                        p = fract(p * vec2(123.34, 456.21));
+                        p += dot(p, p + 45.32);
+                        return fract(p.x * p.y);
+                    }
+
+                    float noise2D(vec2 p) {
+                        vec2 i = floor(p);
+                        vec2 f = fract(p);
+                        vec2 u = f * f * (3.0 - 2.0 * f);
+
+                        float a = hash21(i);
+                        float b = hash21(i + vec2(1.0, 0.0));
+                        float c = hash21(i + vec2(0.0, 1.0));
+                        float d = hash21(i + vec2(1.0, 1.0));
+
+                        return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+                    }
+
+                    float fbm2D(vec2 p) {
+                        float v = 0.0;
+                        float a = 0.5;
+                        mat2 rot = mat2(0.8, 0.6, -0.6, 0.8);
+                        for (int i = 0; i < 4; i++) {
+                            v += a * noise2D(p);
+                            p = rot * p * 2.02;
+                            a *= 0.5;
+                        }
+                        return v;
+                    }
+
+                    void main() {
+                        float scale = (u_noiseScale > 0.01) ? u_noiseScale : 3.5;
+                        float speed = (u_noiseSpeed > 0.0) ? u_noiseSpeed : 0.8;
+
+                        vec2 uvCoord = v_texCoord * scale + vec2(u_time * speed * 0.12, u_time * speed * 0.07);
+                        vec2 posCoord = (v_localPos.xy + v_localPos.yz * 0.5) * (scale * 0.4);
+                        float n = fbm2D(uvCoord + posCoord);
+                        n = clamp(n * 1.25 - 0.1, 0.0, 1.0);
+
+                        float cut = clamp(u_progress, 0.0, 1.0);
+                        if (u_invertedCore > 0.5) {
+                            cut = 1.0 - cut;
+                        }
+
+                        if (n < cut) {
+                            discard;
+                        }
+
+                        float burnWidth = (u_filamentStrength > 0.001) ? u_filamentStrength : 0.085;
+                        float edgeDist = n - cut;
+
+                        vec3 baseRgb = u_color.rgb;
+                        vec3 finalRgb;
+                        float finalAlpha = u_color.a;
+
+                        vec3 norm = normalize(v_normal);
+                        vec3 view = normalize(v_viewDir);
+                        float NdotV = max(0.0, dot(norm, view));
+                        float diffuse = 0.55 + 0.45 * NdotV;
+
+                        if (edgeDist < burnWidth) {
+                            float burnFactor = 1.0 - (edgeDist / burnWidth);
+                            float hotCoreFactor = pow(burnFactor, 3.2);
+
+                            vec3 flameColor = mix(u_hotCore, vec3(1.0, 1.0, 1.0), hotCoreFactor);
+                            float bloomBoost = (u_bloomMultiplier > 0.0) ? u_bloomMultiplier : 2.5;
+
+                            finalRgb = mix(baseRgb * diffuse, flameColor * (1.2 + bloomBoost * hotCoreFactor), burnFactor);
+                            finalAlpha = mix(u_color.a, 1.0, burnFactor);
+                        } else {
+                            float charFactor = smoothstep(burnWidth, burnWidth * 2.2, edgeDist);
+                            finalRgb = mix(baseRgb * 0.25, baseRgb * diffuse, charFactor);
+                        }
+
+                        if (finalAlpha < 0.01) {
+                            discard;
+                        }
+
+                        gl_FragColor = vec4(finalRgb, finalAlpha);
+                    }
+                `,
+                uniforms: {
+                    u_time: { value: 0.0 },
+                    u_progress: { value: 0.0 },
+                    u_color: { value: new THREE.Vector4(baseCol[0], baseCol[1], baseCol[2], comp.alpha !== undefined ? (typeof comp.alpha === 'number' ? comp.alpha : 1.0) : 1.0) },
+                    u_hotCore: { value: new THREE.Vector3(burnCol[0], burnCol[1], burnCol[2]) },
+                    u_noiseScale: { value: noiseScale },
+                    u_noiseSpeed: { value: noiseSpeed },
+                    u_bloomMultiplier: { value: bloomMult },
+                    u_invertedCore: { value: invertedCore },
+                    u_filamentStrength: { value: burnWidth }
+                },
+                transparent: true,
+                blending: comp.blendMode === "NORMAL" ? THREE.NormalBlending : THREE.AdditiveBlending,
+                depthWrite: !!comp.depthMask,
+                side: THREE.DoubleSide
+            });
+        }
+
         function createHakaiCoreShaderMaterial(comp) {
             const baseCol = comp.color || [0.05, 0.0, 0.1];
             return new THREE.ShaderMaterial({
@@ -5243,6 +5541,8 @@
                         mat = createEnergyDiscShaderMaterial(comp);
                     } else if (comp.shader === "slash_arc") {
                         mat = createSlashArcShaderMaterial(comp);
+                    } else if (comp.shader === "dissolve_burn") {
+                        mat = createDissolveBurnShaderMaterial(comp);
                     } else if (comp.shader === "hakai_core") {
                         mat = createHakaiCoreShaderMaterial(comp);
                     } else if (comp.shader === "universal_energy" || comp.shader === "energy_core" || comp.hotCoreColor || comp.rimColor) {
@@ -5745,11 +6045,20 @@
                                 }
                             }
                             const hotCore = comp.hotCoreColor || comp.voidColor;
-                            if (hotCore && inst.material.uniforms.u_hotCoreColor && inst.material.uniforms.u_hotCoreColor.value) {
-                                if (typeof inst.material.uniforms.u_hotCoreColor.value.set === 'function') {
-                                    inst.material.uniforms.u_hotCoreColor.value.set(hotCore[0], hotCore[1], hotCore[2]);
-                                } else {
-                                    inst.material.uniforms.u_hotCoreColor.value = new THREE.Vector3(hotCore[0], hotCore[1], hotCore[2]);
+                            if (hotCore) {
+                                if (inst.material.uniforms.u_hotCoreColor && inst.material.uniforms.u_hotCoreColor.value) {
+                                    if (typeof inst.material.uniforms.u_hotCoreColor.value.set === 'function') {
+                                        inst.material.uniforms.u_hotCoreColor.value.set(hotCore[0], hotCore[1], hotCore[2]);
+                                    } else {
+                                        inst.material.uniforms.u_hotCoreColor.value = new THREE.Vector3(hotCore[0], hotCore[1], hotCore[2]);
+                                    }
+                                }
+                                if (inst.material.uniforms.u_hotCore && inst.material.uniforms.u_hotCore.value) {
+                                    if (typeof inst.material.uniforms.u_hotCore.value.set === 'function') {
+                                        inst.material.uniforms.u_hotCore.value.set(hotCore[0], hotCore[1], hotCore[2]);
+                                    } else {
+                                        inst.material.uniforms.u_hotCore.value = new THREE.Vector3(hotCore[0], hotCore[1], hotCore[2]);
+                                    }
                                 }
                             }
                             const rimCol = comp.rimColor || comp.coronaColor;
@@ -6142,6 +6451,7 @@
                                     <option value="aura_cel" ${comp.shader === 'aura_cel' ? 'selected' : ''}>🔥 Stylized Plasma Aura (Cel-Shaded)</option>
                                     <option value="energy_disc" ${comp.shader === 'energy_disc' ? 'selected' : ''}>💿 Planar Plasma Disc (Radial Teeth & Bands)</option>
                                     <option value="slash_arc" ${comp.shader === 'slash_arc' ? 'selected' : ''}>🗡️ Slash Arc (Polar Katana / Sword Sweep)</option>
+                                    <option value="dissolve_burn" ${comp.shader === 'dissolve_burn' ? 'selected' : ''}>🔥 Dissolve / Burn (Procedural Noise Erosion)</option>
                                     <option value="energy_core" ${comp.shader === 'energy_core' ? 'selected' : ''}>⚡ Emissive Energy Core (Radial Falloff)</option>
                                     <option value="hakai_core" ${comp.shader === 'hakai_core' ? 'selected' : ''}>🌌 Singularity Void (Negative Flux)</option>
                                 </select>
@@ -6222,6 +6532,32 @@
                             <div class="form-col">
                                 <label>Bloom Boost</label>
                                 <input type="number" step="0.2" value="${comp.bloomMultiplier !== undefined ? comp.bloomMultiplier : 1.6}" onchange="updateCompProperty(${idx}, 'bloomMultiplier', parseFloat(this.value))">
+                            </div>
+                        </div>
+                        ` : comp.shader === 'dissolve_burn' ? `
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                    <input type="checkbox" ${comp.invertedCore ? 'checked' : ''} onchange="updateCompProperty(${idx}, 'invertedCore', this.checked)"> Reverse Direction (Materialize / Manifest Mesh)
+                                </label>
+                            </div>
+                            <div class="form-col">
+                                <label>Burn Edge Width</label>
+                                <input type="number" step="0.01" min="0.01" max="0.5" value="${comp.filamentStrength !== undefined ? comp.filamentStrength : 0.085}" onchange="updateCompProperty(${idx}, 'filamentStrength', parseFloat(this.value))">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col-3">
+                                <label>Noise Scale / Freq</label>
+                                <input type="number" step="0.2" min="0.5" max="15.0" value="${comp.noiseScale !== undefined ? comp.noiseScale : 3.6}" onchange="updateCompProperty(${idx}, 'noiseScale', parseFloat(this.value))">
+                            </div>
+                            <div class="form-col-3">
+                                <label>Turbulence Speed</label>
+                                <input type="number" step="0.1" value="${comp.noiseSpeed !== undefined ? comp.noiseSpeed : 1.1}" onchange="updateCompProperty(${idx}, 'noiseSpeed', parseFloat(this.value))">
+                            </div>
+                            <div class="form-col-3">
+                                <label>Incandescent Glow</label>
+                                <input type="number" step="0.2" min="1.0" max="8.0" value="${comp.bloomMultiplier !== undefined ? comp.bloomMultiplier : 2.8}" onchange="updateCompProperty(${idx}, 'bloomMultiplier', parseFloat(this.value))">
                             </div>
                         </div>
                         ` : `
@@ -7521,6 +7857,14 @@
                 } else if (name === 'gigantic_meteor') {
                     camera.position.set(18, 26, 56);
                     controls.target.set(0, 19, -10);
+                    controls.update();
+                } else if (name === 'katana_slash_arc') {
+                    camera.position.set(0, 3.0, 7.5);
+                    controls.target.set(0, 1.5, 0);
+                    controls.update();
+                } else if (name === 'dissolve_energy_orb') {
+                    camera.position.set(0, 2.5, 6.0);
+                    controls.target.set(0, 1.5, 0);
                     controls.update();
                 } else if (name === 'supernova_heat_haze') {
                     camera.position.set(0, 4.0, 14.0);
